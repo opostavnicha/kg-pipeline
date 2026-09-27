@@ -1,0 +1,35 @@
+{
+  "_comment": "Canonical organization name -> name variants seen in documents or the Projects API. Matching ignores case and extra whitespace. Evidence notes are for reviewers only.",
+  "organizations": {
+    "International Development Association (IDA)": [
+      "IDA",
+      "International Development Association",
+      "International Development Association (IDA)"
+    ],
+    "International Bank for Reconstruction and Development (IBRD)": [
+      "IBRD",
+      "International Bank for Reconstruction and Development",
+      "International Bank for Reconstruction and Development (IBRD)"
+    ],
+    "Energy Sector Management Assistance Program (ESMAP)": [
+      "ESMAP",
+      "Energy Sector Management Assistance Program",
+      "Energy Sector Management Assistance Program (ESMAP)"
+    ],
+    "Iraq Reform, Recovery and Reconstruction Fund (I3RF)": [
+      "I3RF",
+      "Iraq Reform, Recovery and Reconstruction Fund",
+      "Iraq Reform, Recovery and Reconstruction Fund (I3RF)",
+      "Iraq Reconstruction Trust Fund"
+    ],
+    "Productive Safety Net Project 6 Multi-Donor Trust Fund (PSNP 6 MDTF)": [
+      "PSNP 6 MDTF",
+      "Productive Safety Net Project (PSNP) 6 Multi-Donor Trust Fund",
+      "Productive Safety Net Project 6 Multi-Donor Trust Fund"
+    ]
+  },
+  "_evidence": {
+    "Iraq Reconstruction Trust Fund": "P175721 datasheet names the fund 'Iraq Reconstruction Trust Fund'; the body says the project is 'grant-funded through the Iraq Reform, Recovery and Reconstruction Fund (I3RF)'.",
+    "PSNP 6 MDTF": "P511478 datasheet lists a US$21M 'Free-standing Single Purpose Trust Fund'; the cover names the US$21M grant 'from the Productive Safety Net Project (PSNP) 6 Multi-Donor Trust Fund'."
+  }
+}

@@ -1,0 +1,37 @@
+[project]
+name = "kg-pipeline"
+version = "0.1.0"
+description = "Knowledge graph and hybrid retrieval over World Bank operation documents, served to Claude over MCP"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [
+    { name = "opostavnicha", email = "58147438+opostavnicha@users.noreply.github.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "mcp==2.2.0",
+    "neo4j==6.3.1",
+    "numpy==2.5.3",
+    "pymupdf==1.28.2",
+    "python-dotenv==1.2.3",
+    "sentence-transformers==6.1.0",
+    "torch==2.14.0",
+    "transformers==5.17.0",
+]
+
+[project.scripts]
+kg-sections = "kg_pipeline.sections:main"
+kg-datasheet = "kg_pipeline.datasheet:main"
+kg-load = "kg_pipeline.load:main"
+kg-chunk = "kg_pipeline.chunk:main"
+kg-retrieve = "kg_pipeline.retrieve:main"
+
+[project.optional-dependencies]
+viz = [
+    "matplotlib==3.11.2",
+]
+
+[build-system]
+requires = ["uv_build>=0.12.19,<0.13.0"]
+build-backend = "uv_build"

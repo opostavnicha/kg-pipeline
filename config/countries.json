@@ -1,0 +1,19 @@
+{
+  "_comment": "Static country map: canonical name -> ISO 3166-1 alpha-2, World Bank region (names as the Projects API v3 spells them), and name/code variants. Covers the countries in the corpus and the MPA phase countries they cite; extend as PDFs are added. 'api_codes' lists non-ISO codes the API uses.",
+  "countries": {
+    "Rwanda": {"iso2": "RW", "region": "Eastern and Southern Africa", "aliases": ["Republic of Rwanda", "Government of Rwanda"]},
+    "Türkiye": {"iso2": "TR", "region": "Europe and Central Asia", "aliases": ["Turkiye", "Turkey", "Republic of Türkiye", "Republic of Turkiye", "Republic of Turkey"]},
+    "India": {"iso2": "IN", "region": "South Asia", "aliases": ["Republic of India"]},
+    "Ethiopia": {"iso2": "ET", "region": "Eastern and Southern Africa", "aliases": ["Federal Democratic Republic of Ethiopia"]},
+    "Tanzania": {"iso2": "TZ", "region": "Eastern and Southern Africa", "aliases": ["United Republic of Tanzania"]},
+    "Iraq": {"iso2": "IQ", "region": "Middle East, North Africa, Afghanistan, and Pakistan", "aliases": ["Republic of Iraq"]},
+    "Somalia": {"iso2": "SO", "region": "Eastern and Southern Africa", "aliases": ["Somalia, Federal Republic of", "Federal Republic of Somalia"]},
+    "Burundi": {"iso2": "BI", "region": "Eastern and Southern Africa", "aliases": ["Republic of Burundi"]},
+    "South Sudan": {"iso2": "SS", "region": "Eastern and Southern Africa", "aliases": ["Republic of South Sudan"]},
+    "Democratic Republic of Congo": {"iso2": "CD", "region": "Eastern and Southern Africa", "api_codes": ["ZR"],
+      "aliases": ["Congo, Democratic Republic of", "Democratic Republic of the Congo", "DRC"]},
+    "Madagascar": {"iso2": "MG", "region": "Eastern and Southern Africa", "aliases": ["Republic of Madagascar"]},
+    "Comoros": {"iso2": "KM", "region": "Eastern and Southern Africa", "aliases": ["Union of the Comoros"]},
+    "Malawi": {"iso2": "MW", "region": "Eastern and Southern Africa", "aliases": ["Republic of Malawi"]}
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "kg": {
+      "command": "/path/to/kg-pipeline/.venv/bin/python",
+      "args": ["/path/to/kg-pipeline/src/kg_server.py"]
+    }
+  }
+}

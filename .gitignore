@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+.venv
+
+# Secrets (copy .env.example to .env)
+.env
+
+# Data and generated output: fetch PDFs with scripts/fetch_pdfs.py, regenerate the rest with the pipeline
+pdfs/
+out/
+cache/
+eval/runs/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/

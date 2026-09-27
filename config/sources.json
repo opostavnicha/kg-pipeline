@@ -1,0 +1,89 @@
+{
+  "_comment": "Source PDFs for the corpus. URLs are from the World Bank Documents & Reports API (search.worldbank.org/api/v3/wds); each sha256 was verified against the downloaded file, the local copy and Document.hash in Neo4j. scripts/fetch_pdfs.py downloads into pdfs/ and checks the hash.",
+  "documents": [
+    {
+      "project_id": "P507538",
+      "country": "Rwanda",
+      "title": "Revenue Improvement and Spending Efficiency Program-for-Results Operation",
+      "doc_type": "program_appraisal_document",
+      "report_number": "PADHP00170",
+      "date": "2025-10-24",
+      "filename": "BOSIB-05cf1e80-eb95-4ae1-b594-481dab7a1849.pdf",
+      "url": "https://documents.worldbank.org/curated/en/099110425095029128/pdf/BOSIB-05cf1e80-eb95-4ae1-b594-481dab7a1849.pdf",
+      "sha256": "ab43196aeb8defa283ce8b5538879afbe9c48a731ae366ec01d40c793062f3be",
+      "bytes": 1055889
+    },
+    {
+      "project_id": "P510381",
+      "country": "Türkiye",
+      "title": "Türkiye: Education for Job Market Readiness",
+      "doc_type": "project_appraisal_document",
+      "report_number": "PADHI01233",
+      "date": "2025-11-24",
+      "filename": "BOSIB-0c372955-50a1-4480-96b2-63eeeed63d5d.pdf",
+      "url": "https://documents.worldbank.org/curated/en/099120125123555808/pdf/BOSIB-0c372955-50a1-4480-96b2-63eeeed63d5d.pdf",
+      "sha256": "da1e2ca4f5422201ddb7a95ef61b1cd15ead2206400c66708cedfd78e4ee5bcc",
+      "bytes": 879769
+    },
+    {
+      "project_id": "P510253",
+      "country": "India",
+      "title": "Uttar Pradesh Clean Air Management Program",
+      "doc_type": "program_appraisal_document",
+      "report_number": "PADHP00175",
+      "date": "2025-11-17",
+      "filename": "BOSIB-22cb12f8-e779-44c8-807e-0671b4c35e95.pdf",
+      "url": "https://documents.worldbank.org/curated/en/099111925102011020/pdf/BOSIB-22cb12f8-e779-44c8-807e-0671b4c35e95.pdf",
+      "sha256": "511b10f94bdbf0534ff33cfeeaa0d4b05d6851c743c741493cb0646e146c05ad",
+      "bytes": 912302
+    },
+    {
+      "project_id": "P511478",
+      "country": "Ethiopia",
+      "title": "Productive Safety Net Project 6",
+      "doc_type": "project_appraisal_document",
+      "report_number": "PADHI01234",
+      "date": "2026-02-08",
+      "filename": "BOSIB-a7e3e155-9f89-43d5-b7ff-bc4c5b0a5e12.pdf",
+      "url": "https://documents.worldbank.org/curated/en/099021126194012306/pdf/BOSIB-a7e3e155-9f89-43d5-b7ff-bc4c5b0a5e12.pdf",
+      "sha256": "912cbc56b857f69762d419016781d86e8898701fb96a5797d1af8f1d03a44cab",
+      "bytes": 1365117
+    },
+    {
+      "project_id": "P508698",
+      "country": "Tanzania",
+      "title": "Sustainable Rural Water Supply and Sanitation Program Phase II",
+      "doc_type": "program_appraisal_document",
+      "report_number": "PADHP00152",
+      "date": "2025-09-09",
+      "filename": "IDU-b4ec7bae-0a10-4c2a-97eb-727f0ceb5286.pdf",
+      "url": "https://documents.worldbank.org/curated/en/099850510092581673/pdf/IDU-b4ec7bae-0a10-4c2a-97eb-727f0ceb5286.pdf",
+      "sha256": "e67ce849717dfb1bb512f0c8ad443db908eee77b429961c7a5a7e9c7f0c8fbe9",
+      "bytes": 1371496
+    },
+    {
+      "project_id": "P175721",
+      "country": "Iraq",
+      "title": "Innovations Towards Learning in Lagging Iraqi Governorates",
+      "doc_type": "project_appraisal_document",
+      "report_number": "PAD4796",
+      "date": "2022-05-10",
+      "filename": "P1757210a4a3cc0808784029476e26b24c.pdf",
+      "url": "https://documents.worldbank.org/curated/en/099435005112219187/pdf/P1757210a4a3cc0808784029476e26b24c.pdf",
+      "sha256": "1ccf5bddd2edbb29deb86f94d76a76c8cb82d415af07abf33046abe92a2fbf83",
+      "bytes": 842341
+    },
+    {
+      "project_id": "P509224",
+      "country": "Somalia",
+      "title": "Somalia Contingent Emergency Response Project",
+      "doc_type": "project_paper",
+      "report_number": null,
+      "date": "2025-06-27",
+      "filename": "P509224-f9db880c-5abe-48a3-9915-400e96d1dcb7.pdf",
+      "url": "https://documents.worldbank.org/curated/en/099062625115514925/pdf/P509224-f9db880c-5abe-48a3-9915-400e96d1dcb7.pdf",
+      "sha256": "67d5b44a539a8439e12bab4904c93e879655fda0e523959fc4266eba5b12a9a6",
+      "bytes": 448610
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "_comment": "Reviewer notes appended to exported Q&A traces (scripts/export_examples.py), keyed by run directory name and question id. Notes are checked against Neo4j; they never change the model's answer.",
+  "20260927-142623": {
+    "e16": "The answer's main claim is right: there is no Kenya operation in the corpus. One detail is overstated: Kenya does not come up \"only\" in the Tanzania program's aquifer list (Annex 2). It is also mentioned in Rwanda's lessons section (PforR programs in neighbouring Kenya and Uganda), Tanzania's riparian-notification paragraph (Annex 3), and a returns-to-education table in Iraq's economic analysis (Annex 2). Checked with a text search over all chunks.",
+    "e12": "The opening line 'None rate it High' is wrong: Ethiopia (P511478) rates fiduciary risk High (see the fiduciary-High example). The scorer passed this answer because it checks for expected facts, not for false ones."
+  }
+}
