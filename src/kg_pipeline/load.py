@@ -23,7 +23,6 @@ Usage: python -m kg_pipeline.load [--dry-run] [--out out] [--pdfs pdfs]
 import argparse
 import hashlib
 import json
-import os
 import re
 import sys
 import unicodedata
@@ -399,13 +398,10 @@ def print_counts(plan: Plan) -> None:
 
 
 def load(plan: Plan) -> None:
-    from dotenv import load_dotenv
-    from neo4j import GraphDatabase
+    from kg_pipeline import db
 
-    load_dotenv(paths.ENV)
-    uri, user, password = os.environ["NEO4J_URI"], os.environ["NEO4J_USERNAME"], os.environ["NEO4J_PASSWORD"]
-    database = os.environ.get("NEO4J_DATABASE") or None
-    with GraphDatabase.driver(uri, auth=(user, password)) as driver:
+    database = db.database()
+    with db.connect() as driver:
         driver.verify_connectivity()
         with driver.session(database=database) as session:
             for label, key in CONSTRAINTS:

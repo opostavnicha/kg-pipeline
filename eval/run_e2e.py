@@ -22,7 +22,6 @@ Usage: python eval/run_e2e.py [--only e03,e15] [--category edge] [--model sonnet
 
 import argparse
 import json
-import os
 import re
 import shutil
 import subprocess
@@ -61,16 +60,18 @@ def preflight() -> dict:
     if not SERVER.exists():
         fail(f"{SERVER.relative_to(ROOT)} not found")
     from dotenv import dotenv_values
-    from neo4j import GraphDatabase
+
+    sys.path.insert(0, str(ROOT / "src"))
+    from kg_pipeline import db
 
     env = dotenv_values(ENV_FILE)
     missing = [k for k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD") if not env.get(k)]
     if missing:
         fail(f".env is missing {', '.join(missing)}")
     try:
-        with GraphDatabase.driver(env["NEO4J_URI"], auth=(env["NEO4J_USERNAME"], env["NEO4J_PASSWORD"])) as driver:
+        with db.connect(env) as driver:
             driver.verify_connectivity()
-            with driver.session(database=env.get("NEO4J_DATABASE") or None) as s:
+            with driver.session(database=db.database(env)) as s:
                 n = s.run("MATCH (o:Operation) RETURN count(o) AS n").single()["n"]
     except Exception as e:
         fail(f"cannot reach Neo4j: {type(e).__name__}: {str(e)[:200]}")

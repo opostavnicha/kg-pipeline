@@ -21,7 +21,6 @@ Usage: python -m kg_pipeline.chunk [--dry-run] [--out out] [--pdfs pdfs]
 import argparse
 import hashlib
 import json
-import os
 import re
 import sys
 from collections import Counter, defaultdict
@@ -282,12 +281,10 @@ def embed(chunks: list[Chunk]) -> dict[str, np.ndarray]:
 
 
 def load_chunks(chunks: list[Chunk], vectors: dict[str, np.ndarray], plan: L.Plan) -> None:
-    from dotenv import load_dotenv
-    from neo4j import GraphDatabase
+    from kg_pipeline import db
 
-    load_dotenv(paths.ENV)
-    with GraphDatabase.driver(os.environ["NEO4J_URI"], auth=(os.environ["NEO4J_USERNAME"], os.environ["NEO4J_PASSWORD"])) as driver:
-        with driver.session(database=os.environ.get("NEO4J_DATABASE") or None) as session:
+    with db.connect() as driver:
+        with driver.session(database=db.database()) as session:
             session.run("CREATE CONSTRAINT chunk_chunk_id IF NOT EXISTS FOR (c:Chunk) REQUIRE c.chunk_id IS UNIQUE").consume()
             session.run(
                 "CREATE VECTOR INDEX chunk_vec IF NOT EXISTS FOR (c:Chunk) ON (c.embedding) "

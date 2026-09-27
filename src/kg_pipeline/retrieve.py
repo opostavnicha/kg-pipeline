@@ -15,15 +15,13 @@ Usage: python -m kg_pipeline.retrieve "<question>" [--country X[,Y]] [--project 
 
 import argparse
 import json
-import os
 import re
 import sys
 import textwrap
 from collections import Counter, defaultdict
 from functools import lru_cache
-from pathlib import Path
 
-from kg_pipeline import paths
+from kg_pipeline import db, paths
 from kg_pipeline.load import name_norm
 
 MODEL = "BAAI/bge-base-en-v1.5"
@@ -38,6 +36,12 @@ me more most my no nor not now of off on once only or other our out over own sam
 them then there these they this those through to too under until up very was we were what when where which while who whom
 why will with would you your""".split())
 LUCENE_SPECIAL = re.compile(r'([+\-!(){}\[\]^"~*?:\\/]|&&|\|\|)')
+
+# Vector candidates with the Cypher 25 SEARCH clause (replaces db.index.vector.queryNodes; same index, same
+# ranking and scores). The explicit CYPHER 25 prefix keeps it working if the database default is Cypher 5.
+VECTOR_SEARCH = """CYPHER 25
+MATCH (c:Chunk)
+  SEARCH c IN (VECTOR INDEX chunk_vec FOR $vector LIMIT $pool) SCORE AS score"""
 
 # Chunk -> its Section -> up the section tree to the Document -> Operation -> Location.
 CONTEXT = """
@@ -68,15 +72,11 @@ def model():
 
 @lru_cache(maxsize=1)
 def driver():
-    from dotenv import load_dotenv
-    from neo4j import GraphDatabase
-
-    load_dotenv(paths.ENV)
-    return GraphDatabase.driver(os.environ["NEO4J_URI"], auth=(os.environ["NEO4J_USERNAME"], os.environ["NEO4J_PASSWORD"]))
+    return db.connect()
 
 
 def database() -> str | None:
-    return os.environ.get("NEO4J_DATABASE") or None
+    return db.database()
 
 
 @lru_cache(maxsize=1)
@@ -151,8 +151,7 @@ def search(question: str, countries: list[str] | None = None, project_ids: list[
     with driver().session(database=database()) as session:
         for pids in scopes:
             params = {**base, "project_ids": pids}
-            vec = session.run("CALL db.index.vector.queryNodes('chunk_vec', $pool, $vector) YIELD node AS c, score" + CONTEXT,
-                              vector=vector, **params).data()
+            vec = session.run(VECTOR_SEARCH + CONTEXT, vector=vector, **params).data()
             ft = session.run("CALL db.index.fulltext.queryNodes('chunk_ft', $q, {limit: $pool}) YIELD node AS c, score" + CONTEXT,
                              q=ftq, **params).data() if ftq else []
             n_vec, n_ft = n_vec + len(vec), n_ft + len(ft)
