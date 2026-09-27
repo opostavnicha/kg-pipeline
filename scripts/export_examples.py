@@ -12,8 +12,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "eval"))
+sys.path.insert(0, str(ROOT / "src"))
 
-import run_e2e  # noqa: E402  (scrubber, tool-name prefix)
+from kg_pipeline import trace  # noqa: E402  (scrubber, tool-name prefix)
 
 EXAMPLES = {  # id -> (file name, what it shows)
     "e11": ("qa-graph-then-retrieve.md", "Graph query to find the operations, then retrieval for the reasons."),
@@ -96,8 +97,8 @@ def trim_result(name: str, raw: str) -> str:
 
 def render(qid: str, item: dict, result: dict, calls: list[dict], answer: str, run: Path, note: str | None = None) -> str:
     fname, what = EXAMPLES[qid]
-    loaded = [c for c in calls if not c["name"].startswith(run_e2e.TOOL_PREFIX)]
-    mcp = [c for c in calls if c["name"].startswith(run_e2e.TOOL_PREFIX)]
+    loaded = [c for c in calls if not c["name"].startswith(trace.TOOL_PREFIX)]
+    mcp = [c for c in calls if c["name"].startswith(trace.TOOL_PREFIX)]
     lines = [
         f"# {item['question']}",
         "",
@@ -112,7 +113,7 @@ def render(qid: str, item: dict, result: dict, calls: list[dict], answer: str, r
     if loaded:
         lines += [f"Claude Code first loaded the MCP tool definitions ({', '.join(c['name'] for c in loaded)}).", ""]
     for n, c in enumerate(mcp, 1):
-        name = c["name"][len(run_e2e.TOOL_PREFIX):]
+        name = c["name"][len(trace.TOOL_PREFIX):]
         lines.append(f"## {n}. `{name}`")
         lines.append("")
         args = dict(c["input"])
@@ -138,7 +139,7 @@ def main() -> None:
     run = Path(args.run) if args.run else max((ROOT / "eval" / "runs").iterdir(), key=lambda p: p.name)
     from dotenv import dotenv_values
 
-    scrub = run_e2e.scrubber(dotenv_values(ROOT / ".env"))
+    scrub = trace.scrubber(dotenv_values(ROOT / ".env"))
     summary = {r["id"]: r for r in json.loads((run / "summary.json").read_text())["results"]}
     import questions as Q
 

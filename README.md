@@ -144,18 +144,32 @@ are in [examples/](examples/). Evaluate with `uv run python eval/eval.py` (no LL
 `uv run python eval/run_e2e.py` (Claude Code; ~2 minutes and ~$4 for the full set). Regenerate the example
 traces from a run with `uv run python scripts/export_examples.py`.
 
+## Ask your own question
+
+Ask the MCP server one question through Claude Code and see which tools it chose, with their arguments and results:
+
+```bash
+uv run python scripts/test_kg.py "Which operations rate fiduciary risk High, and why?"
+uv run python scripts/test_kg.py --replay traces/<timestamp>.jsonl   # re-read a saved trace, no API cost
+```
+
+The report shows the question, each `graph_query` (Cypher and a result table) and `retrieve` call (arguments and
+hits), the answer, and a summary line with the route, turns, time and cost. Each run's trace is scrubbed and saved
+to `traces/` (gitignored). Options: `--full`, `--all` (show Claude Code's internal tool calls), `--model`,
+`--timeout`, `--no-save`.
+
 ## Layout
 
 ```
 config/     section types, organization aliases, country map, source manifest (URLs + SHA-256)
 src/        kg_pipeline package and kg_server.py (MCP)
-scripts/    fetch_pdfs.py, render_graph.py, export_examples.py
+scripts/    fetch_pdfs.py, render_graph.py, export_examples.py, test_kg.py
 eval/       retrieval-only, oracle and end-to-end evals with their question sets
 examples/   Q&A traces, Cypher queries, retrieval calls, an MCP config
 docs/       architecture, lessons learned, graph images
 ```
 
-`pdfs/`, `out/`, `cache/` and `eval/runs/` are generated and gitignored.
+`pdfs/`, `out/`, `cache/`, `eval/runs/` and `traces/` are generated and gitignored.
 
 ## Known limitations
 

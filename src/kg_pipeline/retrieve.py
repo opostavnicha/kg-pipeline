@@ -18,6 +18,7 @@ import json
 import re
 import sys
 import textwrap
+import threading
 from collections import Counter, defaultdict
 from functools import lru_cache
 
@@ -63,11 +64,27 @@ LIMIT $per_method
 """
 
 
-@lru_cache(maxsize=1)
-def model():
-    from sentence_transformers import SentenceTransformer
+# The MCP server runs tool calls in worker threads, and Claude Code can call retrieve several times at once.
+# Loading the model twice, or encoding on one model from two threads (PyTorch on Apple MPS), can deadlock the
+# process, so both are serialized. Encoding a query takes milliseconds; the lock costs nothing noticeable.
+_model_lock = threading.Lock()
+_model = None
 
-    return SentenceTransformer(MODEL)
+
+def model():
+    global _model
+    with _model_lock:
+        if _model is None:
+            from sentence_transformers import SentenceTransformer
+
+            _model = SentenceTransformer(MODEL)
+        return _model
+
+
+def embed_query(text: str) -> list[float]:
+    m = model()
+    with _model_lock:
+        return m.encode(QUERY_INSTRUCTION + text, normalize_embeddings=True).tolist()
 
 
 @lru_cache(maxsize=1)
@@ -91,11 +108,14 @@ def acronym_map() -> dict[str, list[str]]:
         for v in [canon, *variants]:
             if re.fullmatch(r"[A-Z0-9][A-Za-z0-9 &\-]{1,15}", v) and sum(c.isupper() for c in v) >= 2 and " " not in v.strip():
                 counts[v][re.sub(r"\s*\([^)]*\)$", "", canon)] += 1
-    return {a: [e for e, _ in c.most_common(MAX_EXPANSIONS)] for a, c in counts.items()}
+    # Most documents first; ties broken alphabetically, not by the (unordered) query row order.
+    return {a: [e for e, _ in sorted(c.items(), key=lambda kv: (-kv[1], kv[0]))[:MAX_EXPANSIONS]] for a, c in counts.items()}
 
 
 def expansions_for(question: str) -> dict[str, list[str]]:
-    words = set(re.findall(r"[A-Za-z0-9][A-Za-z0-9&\-]*", question))
+    # Acronyms in order of first appearance: a set's order changes between processes (hash randomization), and
+    # the order of the appended expansions changes the query embedding.
+    words = dict.fromkeys(re.findall(r"[A-Za-z0-9][A-Za-z0-9&\-]*", question))
     table = acronym_map()
     out = {}
     for w in words:
@@ -137,7 +157,7 @@ def search(question: str, countries: list[str] | None = None, project_ids: list[
     in the order of project_ids."""
     expansions = expansions_for(question) if expand else {}
     vector_text = question + ("  (" + "; ".join(f"{a}: {', '.join(e)}" for a, e in expansions.items()) + ")" if expansions else "")
-    vector = model().encode(QUERY_INSTRUCTION + vector_text, normalize_embeddings=True).tolist()
+    vector = embed_query(vector_text)
     base = {
         "countries": [name_norm(c) for c in countries] if countries else None,
         "isos": [c.upper() for c in countries] if countries else None,

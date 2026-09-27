@@ -15,8 +15,11 @@ pdfs/
 out/
 cache/
 eval/runs/
+traces/
 
 # OS / editor
 .DS_Store
 .idea/
 .vscode/
+mcp.local.json
+trace*.jsonl

@@ -14,6 +14,9 @@ arguments, a trimmed result, and Claude's answer.
 | [qa-section-type-retrieval.md](qa-section-type-retrieval.md) | Retrieval filtered to one operation and one section type |
 | [qa-not-in-corpus.md](qa-not-in-corpus.md) | A country that isn't in the corpus: the answer says so instead of guessing |
 
+To ask your own question and see the same kind of trace: `uv run python scripts/test_kg.py "<question>"`;
+re-read a saved one for free with `uv run python scripts/test_kg.py --replay traces/<timestamp>.jsonl`.
+
 ## Retrieval from the command line
 
 ```bash
